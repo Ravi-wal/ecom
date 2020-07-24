@@ -8,9 +8,8 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-//app.use(express.urlencoded({urlencoded: true}));
 
-const dbConfig = require("./config/database");
+const dbConfig = require("./app/config/database");
 mongoose.Promise = global.Promise;
 
 mongoose

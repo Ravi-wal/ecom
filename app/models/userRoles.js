@@ -10,6 +10,9 @@ const userRolesSchema = new Schema(
     RoleDescription: {
       type: String
     },
+    UserType: {
+      type: Number
+    },
     Active: {
       type: Number
     }
