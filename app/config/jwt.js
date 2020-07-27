@@ -7,7 +7,7 @@ const isAuthorized = (req,res,next) => {
         let token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, privateKey, { algorithm: algorithm }, (err, user) => {
             if (err) {  
-                return res.status(500).json({ error: "Invalid Key" });
+                return res.status(500).json({ success: false, message: "Invalid Key" });
             }
             req.body.UserId = user.UserId;
             req.body.UserType = user.UserType;
@@ -29,7 +29,7 @@ const isAdmin = (req,res,next) => {
 }
 
 const generateToken =  (UserId, FirstName, LastName, UserType) => {
-    let jToken = jwt.sign({UserId, FirstName, LastName, UserType},privateKey,{algorithm: algorithm,expiresIn: '180000'});
+    let jToken = jwt.sign({UserId, FirstName, LastName, UserType},privateKey,{algorithm: algorithm,expiresIn: '1h'});
     return jToken;
    
  }

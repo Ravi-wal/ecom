@@ -18,6 +18,13 @@ const schemasValidation = {
   addresses: Joi.object().keys({
     AddressType: Joi.any(),
     Address: Joi.any()
+  }),
+  categories: Joi.object().keys({ 
+    CategoryName: Joi.string().required(),
+    CategoryDescription: Joi.any(),
+    Active: Joi.number().required(),
+    UserId: Joi.string().required(),
+    UserType: Joi.number().required()
   })
 
   
