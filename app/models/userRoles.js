@@ -3,17 +3,17 @@ const Schema = mongoose.Schema;
 
 const userRolesSchema = new Schema(
   {
-    RoleName: {
+    roleName: {
       type: String,
       required: true
     },
-    RoleDescription: {
+    roleDescription: {
       type: String
     },
-    UserType: {
+    userType: {
       type: Number
     },
-    Active: {
+    active: {
       type: Number
     }
   },
@@ -22,4 +22,4 @@ const userRolesSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("UserRoles", userRolesSchema);
+module.exports = mongoose.model("userRoles", userRolesSchema);

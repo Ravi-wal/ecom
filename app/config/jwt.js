@@ -9,8 +9,8 @@ const isAuthorized = (req,res,next) => {
             if (err) {  
                 return res.status(500).json({ success: false, message: "Invalid Key" });
             }
-            req.body.UserId = user.UserId;
-            req.body.UserType = user.UserType;
+            req.body.userId = user.UserId;
+            req.body.userType = user.UserType;
             return next();
         });
     } else {
@@ -28,8 +28,8 @@ const isAdmin = (req,res,next) => {
     }
 }
 
-const generateToken =  (UserId, FirstName, LastName, UserType) => {
-    let jToken = jwt.sign({UserId, FirstName, LastName, UserType},privateKey,{algorithm: algorithm,expiresIn: '1h'});
+const generateToken =  (userId, firstName, lastName, userType) => {
+    let jToken = jwt.sign({userId, firstName, lastName, userType},privateKey,{algorithm: algorithm,expiresIn: '1h'});
     return jToken;
    
  }

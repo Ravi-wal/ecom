@@ -2,12 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const fileUpload = require('express-fileupload');
+
 const port = process.env.PORT || 3001;
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(fileUpload({
+  createParentPath: true
+}));
+app.use(express.static('../uploads'));
 
 const dbConfig = require("./app/config/database");
 mongoose.Promise = global.Promise;

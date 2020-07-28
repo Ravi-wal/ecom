@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const addressSchema = new Schema(
   {
-    UserId: {
+    userId: {
       type: String
     },
-    AddressType: {
+    addressType: {
       type: String
     },
-    Address: {
+    address: {
       type: String
     }
   },
@@ -18,4 +18,4 @@ const addressSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Addresses", addressSchema);
+module.exports = mongoose.model("addresses", addressSchema);

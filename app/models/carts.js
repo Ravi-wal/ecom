@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const cartsSchema = new Schema(
   {
-    UserId: {
+    userId: {
       type: String
     },
-    ProductId: {
+    productId: {
       type: String
     },
-    Quantity: {
+    quantity: {
       type: Number
     }
   },
@@ -18,4 +18,4 @@ const cartsSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Carts", cartsSchema);
+module.exports = mongoose.model("carts", cartsSchema);

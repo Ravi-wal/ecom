@@ -3,25 +3,26 @@ const Schema = mongoose.Schema;
 
 const productsSchema = new Schema(
   {
-    CategoryId: {
+    categoryId: {
       type: String
     },
-    ProductName: {
+    productName: {
       type: String
     },
-    ProductDescription: {
+    productDescription: {
       type: String
     },
-    Price: {
+    price: {
       type: Number
     },
-    Active: {
+    active: {
       type: Number
-    }
+    },
+    prodimages: { type: Schema.Types.ObjectId, ref: "ProductImages" }
   },
   {
     timestamps: true
   }
 );
 
-module.exports = mongoose.model("Products", productsSchema);
+module.exports = mongoose.model("products", productsSchema);

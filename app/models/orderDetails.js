@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 const orderDetailsSchema = new Schema(
   {
-    OrderId: {
+    orderId: {
       type: String
     },
-    ProductId: {
+    productId: {
       type: String
     },
-    Quantity: {
+    quantity: {
       type: Number
     },
-    Amount: {
+    amount: {
       type: Number
     }
   },
@@ -21,4 +21,4 @@ const orderDetailsSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("OrderDetails", orderDetailsSchema);
+module.exports = mongoose.model("orderDetails", orderDetailsSchema);

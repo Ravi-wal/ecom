@@ -7,24 +7,34 @@ const schemasValidation = {
     password: Joi.string().min(7).alphanum().required()
   }),
   users: Joi.object().keys({ 
-    FirstName: Joi.string().required(),
-    LastName: Joi.any(),
-    Email: Joi.string().email().required(),
-    Password: Joi.string().min(7).alphanum().required(),
-    Phone: Joi.number(),
-    UserType: Joi.any(),
-    Active: Joi.any()
+    firstName: Joi.string().required(),
+    lastName: Joi.any(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(7).alphanum().required(),
+    phone: Joi.number(),
+    userType: Joi.any(),
+    active: Joi.any()
   }),
   addresses: Joi.object().keys({
-    AddressType: Joi.any(),
-    Address: Joi.any()
+    addressType: Joi.any(),
+    address: Joi.any()
   }),
   categories: Joi.object().keys({ 
-    CategoryName: Joi.string().required(),
-    CategoryDescription: Joi.any(),
-    Active: Joi.number().required(),
-    UserId: Joi.string().required(),
-    UserType: Joi.number().required()
+    categoryName: Joi.string().required(),
+    categoryDescription: Joi.any(),
+    active: Joi.number().required(),
+    userId: Joi.string().required(),
+    userType: Joi.number().required()
+  }),
+  products: Joi.object().keys({ 
+    categoryId: Joi.string().required(),
+    productName: Joi.string().required(),
+    productDescription: Joi.string(),
+    price: Joi.number().required(),
+    images: Joi.any(),
+    active: Joi.number().required(),
+    userId: Joi.string().required(),
+    userType: Joi.number().required()
   })
 
   

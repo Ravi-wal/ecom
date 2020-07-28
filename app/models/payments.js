@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 const paymentsSchema = new Schema(
   {
-    TransactionId: {
+    transactionId: {
       type: String
     },
-    TotalAmount: {
+    totalAmount: {
       type: Number
     },
-    TransactionStatus: {
+    transactionStatus: {
       type: String
     },
-    PaymentType: {
+    paymentType: {
       type: Number
     }
   },
@@ -21,4 +21,4 @@ const paymentsSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Payments", paymentsSchema);
+module.exports = mongoose.model("payments", paymentsSchema);

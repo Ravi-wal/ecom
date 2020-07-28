@@ -3,22 +3,22 @@ const Schema = mongoose.Schema;
 
 const ordersSchema = new Schema(
   {
-    UserId: {
+    userId: {
       type: String
     },
-    PaymentID: {
+    paymentID: {
       type: String
     },
-    AddressId: {
+    addressId: {
       type: String
     },
-    TotalAmount: {
+    totalAmount: {
       type: Number
     },
-    OrderDate: {
+    orderDate: {
       type: Date
     },
-    OrderStatus: {
+    orderStatus: {
       type: String
     }
   },
@@ -27,4 +27,4 @@ const ordersSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Orders", ordersSchema);
+module.exports = mongoose.model("orders", ordersSchema);

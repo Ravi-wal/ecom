@@ -5,7 +5,7 @@ const login = async (req, res) => {
   try {
     let loginRes = await checkUser(req.body.email, req.body.password);
     if(!!loginRes) {
-        let token = await jwt.generateToken(loginRes._id, loginRes.FirstName, loginRes.LastName, loginRes.UserType);
+        let token = await jwt.generateToken(loginRes._id, loginRes.firstName, loginRes.lastName, loginRes.userType);
         res.status(200).json({
           success: true,
           message: "Successfully Logged in",

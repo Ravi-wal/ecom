@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const productImagesSchema = new Schema(
   {
-    ProductId: {
+    productId: {
+      type: { type: Schema.Types.ObjectId, ref: 'Products' }
+    },
+    imageUrl: {
       type: String
     },
-    ImageURL: {
-      type: String
-    },
-    Active: {
+    active: {
       type: Number
     }
   },
@@ -18,4 +18,4 @@ const productImagesSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("ProductImages", productImagesSchema);
+module.exports = mongoose.model("productImages", productImagesSchema);

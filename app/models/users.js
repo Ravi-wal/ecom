@@ -3,27 +3,27 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    FirstName: {
+    firstName: {
       type: String
     },
-    LastName: {
+    lastName: {
       type: String
     },
-    Email: {
+    email: {
       type: String,
       required: true
     },
-    Password: {
+    password: {
       type: String,
       required: true
     },
-    Phone: {
+    phone: {
       type: Number
     },
-    UserType: {
+    userType: {
       type: Number
     },
-    Active: {
+    active: {
       type: Number
     }
   },
@@ -32,4 +32,4 @@ const userSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("users", userSchema);

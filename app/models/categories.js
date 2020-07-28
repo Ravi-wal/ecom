@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const categoriesSchema = new Schema(
   {
-    CategoryName: {
+    categoryName: {
       type: String
     },
-    CategoryDescription: {
+    categoryDescription: {
       type: String
     },
-    Active: {
+    active: {
       type: Number
     }
   },
@@ -18,4 +18,4 @@ const categoriesSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Categories", categoriesSchema);
+module.exports = mongoose.model("categories", categoriesSchema);
