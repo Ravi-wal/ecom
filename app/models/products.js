@@ -3,9 +3,7 @@ const Schema = mongoose.Schema;
 
 const productsSchema = new Schema(
   {
-    categoryId: {
-      type: String
-    },
+    categoryId: { type: Schema.Types.ObjectId, ref: "categories" },
     productName: {
       type: String
     },
@@ -18,7 +16,7 @@ const productsSchema = new Schema(
     active: {
       type: Number
     },
-    prodimages: { type: Schema.Types.ObjectId, ref: "ProductImages" }
+    prodimages: [{ type: Schema.Types.ObjectId, ref: "productImages" }]
   },
   {
     timestamps: true

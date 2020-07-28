@@ -11,7 +11,8 @@ const categoriesSchema = new Schema(
     },
     active: {
       type: Number
-    }
+    },
+    products: [{ type: Schema.Types.ObjectId, ref: "products" }]
   },
   {
     timestamps: true

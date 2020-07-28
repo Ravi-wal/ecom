@@ -3,15 +3,13 @@ const Schema = mongoose.Schema;
 
 const productImagesSchema = new Schema(
   {
-    productId: {
-      type: { type: Schema.Types.ObjectId, ref: 'Products' }
-    },
     imageUrl: {
       type: String
     },
     active: {
       type: Number
-    }
+    },
+    productId:  { type: Schema.Types.ObjectId, ref: 'products' }
   },
   {
     timestamps: true

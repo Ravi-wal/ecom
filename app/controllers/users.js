@@ -3,10 +3,10 @@ const User = require("../models/users");
 
 const create = async (req, res) => {
   try{
-    if(await User.findOne({ Email: req.body.Email })){
+    if(await User.findOne({ email: req.body.email })){
       return res.status(422).json({
         status: false, 
-        message: "Already registered with the email " + req.body.Email
+        message: "Already registered with the email " + req.body.email
       });
     } else {
       await createUser(req.body);
@@ -36,7 +36,14 @@ const list = (req, res) => {
     });
 };
 
+const checkUser = async (email, password) => {
+  const user = await User.findOne({ email: email, password: password, active: 1 });
+  return user;
+};
+
+
 module.exports = {
   create,
-  list
+  list,
+  checkUser
 };

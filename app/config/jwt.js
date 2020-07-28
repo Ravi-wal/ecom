@@ -9,8 +9,8 @@ const isAuthorized = (req,res,next) => {
             if (err) {  
                 return res.status(500).json({ success: false, message: "Invalid Key" });
             }
-            req.body.userId = user.UserId;
-            req.body.userType = user.UserType;
+            req.body.userId = user.userId;
+            req.body.userType = user.userType;
             return next();
         });
     } else {
@@ -21,7 +21,7 @@ const isAuthorized = (req,res,next) => {
 
 
 const isAdmin = (req,res,next) => {
-    if(req.body.UserType === 1) {
+    if(req.body.userType === 1) {
             return next();
     } else {
         res.status(500).json({ success: false, message: "Not Authorized" });

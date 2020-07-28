@@ -5,11 +5,11 @@ var prodId;
 
 const create = async (req, res) => {
   try{
-    if(await Product.findOne({ ProductName: {
-        $regex : new RegExp(req.body.ProductName, "i") } })){
+    if(await Product.findOne({ productName: {
+        $regex : new RegExp(req.body.productName, "i") } })){
       return res.status(422).json({
         status: false, 
-        message: "Already registered with the ProductName " + req.body.ProductName
+        message: "Already registered with the ProductName " + req.body.productName
       });
     } else {
       const product = new Product(req.body);
@@ -17,7 +17,8 @@ const create = async (req, res) => {
       product.save().catch(err => {
         throw err;
       });
-      uploadFiles(req);
+      let imageIds = await uploadFiles(req);
+      await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
       res.status(200).json({ status: true, message: "Product created succesfully" });
     }
   } catch(err){
@@ -26,41 +27,43 @@ const create = async (req, res) => {
   }
 };
 
-const uploadFiles = (req,res) => {
+const uploadFiles = async (req,res) => {
+    let imagesData = [];
+    let imageIds = {};
     if(req.files){
         let data = []; 
-        if(req.files.ProductImages.length > 1){
-            _.forEach(_.keysIn(req.files.ProductImages), (key) => {
-                let ProductImage = req.files.ProductImages[key];
-                let newName = Date.now()+'_'+ProductImage.name;
-                ProductImage.mv('/Users/ravikumar/Documents/node/ecom/app/uploads/' + newName);
+        if(req.files.productImages.length > 1){
+            _.forEach(_.keysIn(req.files.productImages), (key) => {
+                let productImage = req.files.productImages[key];
+                let newName = Date.now()+'_'+productImage.name;
+                productImage.mv('/Users/ravikumar/Documents/node/ecom/app/uploads/' + newName);
                 data.push({
-                    ProductId: prodId,
-                    ImageURL: newName,
-                    Active: 1
+                  imageUrl: newName,
+                  active: 1,
+                  productId: prodId
                 });
             });
         } else {
-            let ProductImage = req.files.ProductImages;
-            let newName = Date.now()+'_'+ProductImage.name;
-            ProductImage.mv('/Users/ravikumar/Documents/node/ecom/app/uploads/' + newName);
+            let productImage = req.files.productImages;
+            let newName = Date.now()+'_'+productImage.name;
+            productImage.mv('/Users/ravikumar/Documents/node/ecom/app/uploads/' + newName);
             data.push({
-                ProductId: prodId,
-                ImageURL: newName,
-                Active: 1
+                imageUrl: newName,
+                active: 1,
+                productId: prodId
             });
         }
-        ProductImages.insertMany(data);
+        imagesData = await ProductImages.insertMany(data);
+        imageIds = imagesData.map(image => image._id);
     }
+    return imageIds;
 }
 
-const list = (req, res) => {
-    Product.findOne({ProductName: "Dell Laptop"})
-    .populate("prodimages")
-    .exec(data => {
-       
-      return res.status(200).json(data);
-    })
+const list = async (req, res) => {
+    const prodData = await Product.find()
+                        .populate('categoryId', 'categoryName')
+                        .populate('prodimages', 'imageUrl').exec();
+    return res.status(200).json(prodData);
 };
 
 const update = (req, res) => {
@@ -68,11 +71,11 @@ const update = (req, res) => {
     Product.findByIdAndUpdate(
         prodId,
       {
-        CategoryId: req.body.CategoryId,
-        ProductName: req.body.ProductName,
-        ProductDescription: req.body.ProductDescription,
-        Price: req.body.Price,
-        Active: req.body.Active
+        categoryId: req.body.categoryId,
+        productName: req.body.productName,
+        productDescription: req.body.productDescription,
+        price: req.body.price,
+        active: req.body.active
       },
       { new: true }
     ).then(async data => {
@@ -82,8 +85,9 @@ const update = (req, res) => {
             message: "Product Not Found with the Update ID " + prodId
           });
         }
-        await ProductImages.deleteMany({ProductId: prodId});
-        uploadFiles(req);
+        await ProductImages.deleteMany({productId: prodId});
+        let imageIds = await uploadFiles(req);
+        await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
         return res.status(200).json({success: true, message: "Product updated Successfully"});
       })
       .catch(err => {
