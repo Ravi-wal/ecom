@@ -12,9 +12,7 @@ const create = async (req, res) => {
     } else {
         const product = new Product(req.body);
         prodId = product._id;
-        product.save().catch(err => {
-          throw err;
-        });
+        product.save();
         let imageIds = await uploadFiles(req);
         await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
         response.success("Product created succesfully", res);

@@ -18,7 +18,7 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
   try{
-    const data = await User.find();
+    const data = await User.find().populate('addresses','addressType address');
     response.success(data, res);
   }catch(err) {
     response.internalError(res);

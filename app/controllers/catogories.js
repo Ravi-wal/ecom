@@ -16,11 +16,12 @@ const create = async (req, res) => {
   }
 };
 
-const list = (req, res) => {
+const list = async (req, res) => {
   try{
-    const data = Category.find();
-    response.success(data);
+    const data = await Category.find();
+    response.success(data,res);
   }catch(err){
+    console.log(err)
     response.internalError(res);
   }
 };
@@ -28,16 +29,17 @@ const list = (req, res) => {
 const update = async (req, res) => {
   try{
     const data = await Category.findByIdAndUpdate(req.params.categoryId, {
-                                      CategoryName: req.body.CategoryName,
-                                      CategoryDescription: req.body.CategoryDescription,
-                                      Active: req.body.Active
+                                      categoryName: req.body.categoryName,
+                                      categoryDescription: req.body.categoryDescription,
+                                      active: req.body.active
                                     },
                                     { new: true }
                             );
     if (!data) {
-      response.failed("Product Not Found with the Update ID " + prodId, res);
+      response.failed("Category Not Found with the Update ID " + req.params.categoryId, res);
+    } else {
+      response.success("Category updated Successfully", res);
     }
-    response.success("Category updated Successfully", res);
   }catch(err){
     response.internalError(res);
   }

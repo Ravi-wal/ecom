@@ -8,24 +8,24 @@ const isAuthorized = (req,res,next) => {
         let token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, privateKey, { algorithm: algorithm }, (err, user) => {
             if (err) {  
-                response.notAuthorized(res);
+                response.failed("Invalid Key", res);
+            } else {
+                req.body.userId = user.userId;
+                req.body.userType = user.userType;
+                return next();
             }
-            req.body.userId = user.userId;
-            req.body.userType = user.userType;
-            return next();
         });
     } else {
-        response.notAuthorized(res);
+        response.failed("Token required", res);
     }
 }
 
 
 const isAdmin = (req,res,next) => {
     if(req.body.userType === 1) {
-            return next();
-    } else {
-        response.notAuthorized(res);
+        return next();
     }
+    response.notAuthorized(res);
 }
 
 const generateToken =  (userId, firstName, lastName, userType) => {

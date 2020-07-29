@@ -25,7 +25,8 @@ const userSchema = new Schema(
     },
     active: {
       type: Number
-    }
+    },
+    addresses: [{ type: Schema.Types.ObjectId, ref: "addresses" }]
   },
   {
     timestamps: true
