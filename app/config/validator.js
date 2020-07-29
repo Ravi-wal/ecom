@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const response = require('./response');
 
 const schemasValidation = { 
 
@@ -37,6 +38,12 @@ const schemasValidation = {
     active: Joi.number().required(),
     userId: Joi.string().required(),
     userType: Joi.number().required()
+  }),
+  cart: Joi.object().keys({ 
+    productId: Joi.string().required(),
+    quantity: Joi.number().required(),
+    userId: Joi.string().required(),
+    userType: Joi.number().required()
   })
 
   
@@ -56,7 +63,7 @@ const schemaValidator = (schema, property) => {
       const message = details.map(i => i.message).join(',');
   
       console.log("error", message); 
-      res.status(422).json({ error: message }) 
+      response.validationError(message, res);
     } 
   } 
 } 

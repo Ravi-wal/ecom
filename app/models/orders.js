@@ -3,15 +3,9 @@ const Schema = mongoose.Schema;
 
 const ordersSchema = new Schema(
   {
-    userId: {
-      type: String
-    },
-    paymentID: {
-      type: String
-    },
-    addressId: {
-      type: String
-    },
+    userId: { type: Schema.Types.ObjectId, ref: 'users' },
+    paymentID: { type: Schema.Types.ObjectId, ref: 'payments' },
+    addressId: { type: Schema.Types.ObjectId, ref: 'addresses' },
     totalAmount: {
       type: Number
     },
