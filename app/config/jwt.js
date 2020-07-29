@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const response = require('../config/response');
 const algorithm = 'HS512';
 const privateKey = 'myPrivateKeyHere';
 
@@ -7,15 +8,14 @@ const isAuthorized = (req,res,next) => {
         let token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, privateKey, { algorithm: algorithm }, (err, user) => {
             if (err) {  
-                return res.status(500).json({ success: false, message: "Invalid Key" });
+                response.notAuthorized(res);
             }
             req.body.userId = user.userId;
             req.body.userType = user.userType;
             return next();
         });
     } else {
-        res.status(500).json({ error: "Not Authorized" });
-        throw new Error("Not Authorized");
+        response.notAuthorized(res);
     }
 }
 
@@ -24,7 +24,7 @@ const isAdmin = (req,res,next) => {
     if(req.body.userType === 1) {
             return next();
     } else {
-        res.status(500).json({ success: false, message: "Not Authorized" });
+        response.notAuthorized(res);
     }
 }
 

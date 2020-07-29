@@ -1,5 +1,6 @@
 const Product = require("../models/products");
 const ProductImages = require('../models/productImages');
+const response = require('../config/response');
 const _ = require('lodash');
 var prodId;
 
@@ -7,23 +8,19 @@ const create = async (req, res) => {
   try{
     if(await Product.findOne({ productName: {
         $regex : new RegExp(req.body.productName, "i") } })){
-      return res.status(422).json({
-        status: false, 
-        message: "Already registered with the ProductName " + req.body.productName
-      });
+        response.failed("Already registered with the ProductName " + req.body.productName, res);
     } else {
-      const product = new Product(req.body);
-      prodId = product._id;
-      product.save().catch(err => {
-        throw err;
-      });
-      let imageIds = await uploadFiles(req);
-      await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
-      res.status(200).json({ status: true, message: "Product created succesfully" });
+        const product = new Product(req.body);
+        prodId = product._id;
+        product.save().catch(err => {
+          throw err;
+        });
+        let imageIds = await uploadFiles(req);
+        await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
+        response.success("Product created succesfully", res);
     }
   } catch(err){
-      console.log(err);
-    return res.status(500).json({ status: false,  message: "Something went wrong" });
+      response.internalError(res);
   }
 };
 
@@ -63,42 +60,34 @@ const list = async (req, res) => {
     const prodData = await Product.find()
                         .populate('categoryId', 'categoryName')
                         .populate('prodimages', 'imageUrl').exec();
-    return res.status(200).json(prodData);
+    response.success(prodData, res);
 };
 
-const update = (req, res) => {
+const update = async (req, res) => {
     prodId =req.params.productId;
-    Product.findByIdAndUpdate(
-        prodId,
-      {
-        categoryId: req.body.categoryId,
-        productName: req.body.productName,
-        productDescription: req.body.productDescription,
-        price: req.body.price,
-        active: req.body.active
-      },
-      { new: true }
-    ).then(async data => {
-        if (!data) {
-          return res.status(404).json({
-            success: false,
-            message: "Product Not Found with the Update ID " + prodId
-          });
-        }
-        await ProductImages.deleteMany({productId: prodId});
-        let imageIds = await uploadFiles(req);
-        await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
-        return res.status(200).json({success: true, message: "Product updated Successfully"});
-      })
-      .catch(err => {
-        return res.status(500).json({
-            success: false,
-            message: "Some thing went wrong with the Update ID " + prodId
-        });
-      });
-  };
-  
+    try{
+      const data = await Product.findByIdAndUpdate(prodId,{
+                                          categoryId: req.body.categoryId,
+                                          productName: req.body.productName,
+                                          productDescription: req.body.productDescription,
+                                          price: req.body.price,
+                                          active: req.body.active
+                                        },
+                                        { new: true }
+                                );
+      if (!data) {
+        response.failed("Product Not Found with the Update ID " + prodId, res);
+      }
 
+      await ProductImages.deleteMany({productId: prodId});
+      let imageIds = await uploadFiles(req);
+      await Product.findByIdAndUpdate(prodId,{prodimages: imageIds},{ new: true });
+      response.success("Product updated Successfully", res);
+
+    } catch(err) {
+      response.internalError(res);
+    }
+}
 
 module.exports = {
   create,

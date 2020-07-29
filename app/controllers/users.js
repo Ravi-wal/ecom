@@ -1,46 +1,34 @@
 const User = require("../models/users");
+const response = require('../config/response');
 //const UserRoles = require("../models/userRoles");
 
 const create = async (req, res) => {
   try{
     if(await User.findOne({ email: req.body.email })){
-      return res.status(422).json({
-        status: false, 
-        message: "Already registered with the email " + req.body.email
-      });
+      response.failed("Already registered with the email " + req.body.email, res);
     } else {
-      await createUser(req.body);
-      res.status(200).json({ status: true, message: "User created succesfully" });
+      const user = new User(req.body);
+      await user.save();
+      response.success("User created succesfully", res);
     }
   } catch(err){
-    return res.status(500).json({ status: false,  message: "Something went wrong" });
+    response.internalError(res);
   }
 };
 
-
-function createUser(details) {
-  const user = new User(details);
-  user.save().catch(err => {
-    throw err;
-  });
-}
-
-
-const list = (req, res) => {
-  User.find()
-    .then(data => {
-      return res.status(200).json(data);
-    })
-    .catch(err => {
-      return res.status(400).json({ status: false, message: "Something went wrong" });
-    });
+const list = async (req, res) => {
+  try{
+    const data = await User.find();
+    response.success(data, res);
+  }catch(err) {
+    response.internalError(res);
+  }
 };
 
 const checkUser = async (email, password) => {
   const user = await User.findOne({ email: email, password: password, active: 1 });
   return user;
 };
-
 
 module.exports = {
   create,
