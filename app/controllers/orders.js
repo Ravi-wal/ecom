@@ -57,8 +57,7 @@ const list = async (req, res) => {
                             .populate('userId')
                             .populate('paymentID')
                             .populate('addressId')
-                            .populate('orderDetails')
-                            ;
+                            .populate('orderDetails');
     response.success(data,res);
   }catch(err){
     console.log(err)

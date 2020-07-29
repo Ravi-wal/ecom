@@ -6,4 +6,5 @@ module.exports = app => {
   require('./products')(app);
   require('./cart')(app);
   require('./orders')(app);
+  require('./payments')(app);
 };

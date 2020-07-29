@@ -53,6 +53,14 @@ const schemasValidation = {
     orderStatus: Joi.any(),
     userId: Joi.string().required(),
     userType: Joi.number().required()
+  }),
+  payments: Joi.object().keys({ 
+    transactionId: Joi.any(),
+    totalAmount: Joi.number().required(),
+    transactionStatus: Joi.any(),
+    paymentType: Joi.any(),
+    userId: Joi.string().required(),
+    userType: Joi.number().required()
   })
 
   
