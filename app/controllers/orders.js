@@ -85,10 +85,23 @@ const update = async (req, res) => {
       response.internalError(res);
     }
 };
+
+const cancelOrder = async (req,res) => {
+  try{
+    const data = await Order.findByIdAndUpdate(req.params.orderId, {orderStatus: 'CANCELLED'}, { new: true });
+    if (!data) {
+        response.failed("Order Not Found with the Update ID " + req.params.orderId, res);
+    }
+    response.success("Order cancelled Successfully", res);
+  }catch(err) {
+      response.internalError(res);
+    }
+}
   
 
 module.exports = {
   create,
   list,
-  update
+  update,
+  cancelOrder
 };
