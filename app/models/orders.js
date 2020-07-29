@@ -14,7 +14,8 @@ const ordersSchema = new Schema(
     },
     orderStatus: {
       type: String
-    }
+    },
+    orderDetails: [{ type: Schema.Types.ObjectId, ref: 'orderDetails' }]
   },
   {
     timestamps: true
