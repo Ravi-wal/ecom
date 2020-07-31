@@ -13,7 +13,7 @@ const login = async (req, res) => {
                             token: token
                           }, res);
     } else {
-      response.success('Invalid Email or Password', res);
+      response.validationError('Invalid Email or Password', res);
     }
   } catch (err) {
     console.log('Error: ' + err);

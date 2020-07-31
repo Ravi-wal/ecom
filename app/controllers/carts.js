@@ -6,7 +6,7 @@ const addToCart = async (req, res) => {
 
     if(await Cart.findOne({ userId: req.body.userId, productId: req.body.productId })){
         await Cart.findOneAndUpdate({ userId: req.body.userId, productId: req.body.productId }, {
-            $inc: {"$.quantity": req.body.quantity}
+            quantity: req.body.quantity
         },
         { new: true }
     );
