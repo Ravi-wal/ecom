@@ -25,6 +25,9 @@ const create = async (req, res) => {
 const uploadFiles = async (req,res) => {
     let imagesData = [];
     let imageIds = {};
+
+    /* Code to save in local server */
+
     if(req.files){
         let data = []; 
         if(req.files.productImages.length > 1){
@@ -51,6 +54,9 @@ const uploadFiles = async (req,res) => {
         imagesData = await ProductImages.insertMany(data);
         imageIds = imagesData.map(image => image._id);
     }
+    
+    /* Code to save the files in Amazon s3 */
+
     return imageIds;
 }
 
