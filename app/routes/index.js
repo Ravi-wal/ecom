@@ -7,4 +7,5 @@ module.exports = app => {
   require('./cart')(app);
   require('./orders')(app);
   require('./payments')(app);
+  require('./bjobs')(app);
 };

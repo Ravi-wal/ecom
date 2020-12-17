@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const fileUpload = require('express-fileupload');
+const Arena = require('bull-arena');
+const Bull = require('bull');
 
 const app = express();
 
@@ -25,6 +27,22 @@ mongoose
     console.log(err);
     process.exit();
   });
+
+const arenaConfig = Arena({
+  Bull,
+    queues: [
+      {
+        type: "bull",
+        name: "UploadFilesToAmazonS3",
+        hostId: "myfirstqueue"
+      }
+    ],
+  },
+  {
+    basePath: '/arena',
+    disableListen: true
+  });
+app.use('/', arenaConfig);
 
 require("./app/routes/index")(app);
 
